@@ -3,3 +3,4 @@
 /zailive
 /zaidiff
 *.test
+.agents/
