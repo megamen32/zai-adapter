@@ -1,0 +1,46 @@
+{
+ "zcode_captured": {
+  "model": "GLM-5.3",
+  "status": 200,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 17088,
+   "server_tool_use": {
+    "web_search_requests": 0
+   },
+   "service_tier": "standard"
+  },
+  "body_len": 308785
+ },
+ "replay": {
+  "label": "replay captured zcode body (GLM-5.3)",
+  "status": 200,
+  "ok": true,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 82432,
+   "server_tool_use": {
+    "web_search_requests": 0
+   },
+   "service_tier": "standard"
+  },
+  "raw_head": "event: message_start\ndata: {\"type\": \"message_start\", \"message\": {\"id\": \"msg_20261018045448ab508fe51222441d\", \"type\": \"message\", \"role\": \"assistant\", \"model\": \"GLM-5.3\", \"content\": [], \"stop_reason\": null, \"stop_sequence\": null, \"usage\": {\"input_tokens\": 0, \"output_tokens\": 0}}}\n\nevent: ping\ndata: {\""
+ },
+ "minimal": {
+  "label": "minimal echo (GLM-5.3)",
+  "status": 200,
+  "ok": true,
+  "usage": {
+   "input_tokens": 17,
+   "output_tokens": 3,
+   "cache_read_input_tokens": 0,
+   "server_tool_use": {
+    "web_search_requests": 0
+   },
+   "service_tier": "standard"
+  },
+  "raw_head": "{\"id\":\"msg_20261018045454ca2f1200767f4150\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"GLM-5.3\",\"content\":[{\"type\":\"text\",\"text\":\"hi\"}],\"stop_reason\":\"end_turn\",\"stop_sequence\":null,\"usage\":{\"input_tokens\":17,\"output_tokens\":3,\"cache_read_input_tokens\":0,\"server_tool_use\":{\"web_search_requests\":0},"
+ }
+}

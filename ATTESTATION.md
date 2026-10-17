@@ -131,3 +131,40 @@ independently captured run. The signature does not verify because ZCode signs
 with the coding-plan project key rather than the API key in
 `~/.zcode/v2/config.json`; the handshake issues a stable key per `apiKeyId`, so
 this is a credential difference, not a formula difference.
+
+## Metered A/B: the credit counter, ZCode turn vs the adapter
+
+Measured 2026-10-17 evening with explicit credit snapshots around each step
+(`meter_ab.py snap`), regeneration via `flash_experiment.py` and `round2.py`.
+Snapshots are for `unit3x5` (5-hour window) credits.
+
+| step | content | credits charged |
+| --- | --- | --- |
+| real ZCode turn (headless, `GLM-5.3`) | "Reply with exactly: hi", 308 785 B body | **+41** |
+| adapter replay of the byte-identical captured body, cold window | same 308 785 B | **+10** |
+| adapter replay #2, 7 s later | identical bytes | **+13** |
+| adapter replay #3, 7 s later | identical bytes | **+11** |
+| real ZCode turn, right after (fresh session, ~99 K in, 99 K cached) | turn body grows per session | **+28** |
+| adapter, minimal echo `GLM-5.3` | 17 in / 3 out | **+0** |
+| adapter, minimal echo `GLM-5.3-Flash` | 17 in / 29 out | **+0..1** |
+
+Findings:
+
+1. **Metering follows the request content, not the client identity.** The
+   byte-identical replay is billed through the same credit counters as the real
+   ZCode traffic, and no response or counter ever reflected the attestation.
+2. **ZCode is simply more expensive per turn** because each turn rescores its
+   current session prompt (82–112 K input tokens growing per turn) while our
+   replay hits the server-side cache of the identical body. Nothing else in the
+   charge tracked identity, `service_tier` stayed `standard` in every case.
+3. **A minimal Flash call through the adapter is essentially free** on this
+   plan's rounding — in=17, out=29 moved the weekly counter by 1.
+4. Killing one hypothesis early: the headless `zcode --prompt` always runs
+   `GLM-5.3`; the Flash selection is only reachable interactively or from the
+   subagent settings (`agents-state.json` overrides). Forcing it would require
+   patching the ZCode bundle, which we did not do. Config keys we probed
+   (`config.json` model order/priority, `agents-state.json` overrides) were all
+   reverted; the runtime provider registry (`Tss[0]/ctr[0]`) still defaults to
+   `GLM-5.3`.
+
+Raw snapshots in [`meter-evidence/`](meter-evidence/).

@@ -1,0 +1,14 @@
+{
+ "ts": 1792270290981,
+ "windows": {
+  "unit3x5": {
+   "currentValue": 6329,
+   "usage": 28000
+  },
+  "unit6x1": {
+   "currentValue": 28777,
+   "usage": 140000
+  }
+ },
+ "phase": "preZ3"
+}
