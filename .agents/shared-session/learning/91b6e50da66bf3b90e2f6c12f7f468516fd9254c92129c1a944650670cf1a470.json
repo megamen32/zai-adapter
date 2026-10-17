@@ -1,0 +1,53 @@
+{
+  "business": {
+    "interval": {
+      "active_ns": 2173049552907,
+      "actor": "ses_eb4eeef7dffeQu8ehcZagdk154",
+      "boot_evidence": [
+        {
+          "id": "75670747-3fba-4f44-bce9-f1e61a6901ba",
+          "limitations": [],
+          "source": "/proc/sys/kernel/random/boot_id"
+        }
+      ],
+      "last_sample": {
+        "boot": {
+          "id": "75670747-3fba-4f44-bce9-f1e61a6901ba",
+          "limitations": [],
+          "source": "/proc/sys/kernel/random/boot_id"
+        },
+        "monotonic_ns": 415297289291207,
+        "wall_ns": 1792262945974168595
+      },
+      "open_monotonic_ns": null,
+      "started": {
+        "boot": {
+          "id": "75670747-3fba-4f44-bce9-f1e61a6901ba",
+          "limitations": [],
+          "source": "/proc/sys/kernel/random/boot_id"
+        },
+        "monotonic_ns": 413124146178937,
+        "wall_ns": 1792260772831056666
+      },
+      "status": "paused",
+      "stopped": null,
+      "task": "original-user-goal",
+      "version": 1,
+      "wall_clock_went_backward": false
+    },
+    "last_review": null,
+    "latest_prompt": "🤖 Сообщение от AI-сессии\nОтправитель неизвестен: сессия не указана.\n\nI cannot read your assistant text through the fleet view, so please persist the verdict. Write your COMPLETE review to /tmp/opencode/critic-verdict.md (outside the repo, so nothing untracked lands in the git tree) in this shape:\n\n# VERDICT: <SUPPORTED|REVISE|NEEDS_EVIDENCE>\n\n## Blockers (ordered by severity)\n## Non-blocking\n## Claims proven vs merely not-observed\n## Smallest check that would settle the biggest disagreement\n\nUse file:line. Then reply with only the one-line verdict and the path.",
+    "next_active_seconds": 3600,
+    "original_prompt": "You are an INDEPENDENT Critic. You did not write this code. Do not defer to the author's framing and do not treat the author's conclusions as given. Your job is to find what is wrong, weak, or unjustified, and to say so plainly.\n\nOBJECTIVE UNDER REVIEW\nBuild a small Go adapter (github.com/megamen32/zai-adapter) that puts a z.ai \"Coding Plan\" endpoint behind a local URL, so any project can use it by setting its base URL. It also reimplements ZCode's client attestation.\n\nWHAT TO READ (repo root /home/roomhacker/agents-projects/zai-adapter)\n- README.md          (claims, including three caveats)\n- zsign/sign.go      (attestation: HKDF, handshake, AES-GCM, proof of work, Ed25519)\n- internal/translate/translate.go and stream.go   (OpenAI <-> Anthropic)\n- cmd/zai-adapter/main.go  (HTTP server, routing, upstream call)\n- cmd/zaicheck/main.go, cmd/zailive/main.go, cmd/zaidiff/main.go  (verification tools)\nAlso relevant: /home/roomhacker/agents-projects/zai-capture-probe/FINDINGS.md\n\nCLAIMS TO ATTACK\n1. The adapter exposes /v1/messages and /v1/chat/completions on one port; the OpenAI path is translated to Anthropic upstream and back.\n2. The server does NOT enforce or confirm the attestation: signed and unsigned requests get identical 200 + identical usage and no distinguishing response header (claim rests on cmd/zaidiff).\n3. ZCode's captured signature does not verify under the API key in ~/.zcode/v2/config.json under any message layout, so ZCode signs with a different, encrypted credential.\n4. api.z.ai/api/paas/v4/chat/completions returns 429 \"Insufficient balance\" for this account.\n5. The proof-of-work formula, seed derivation and signed-message layout match the ZCode 0.16.9 client bundle.\n\nSPECIFICALLY LOOK FOR\n- Correctness bugs in the translation layer (tool-call round trips, streaming, usage accounting, finish_reason mapping, multi-turn tool results, images, system/developer roles, empty content).\n- Resource/robustness bugs: unbounded reads, missing timeouts, goroutine or header leaks, panics, nil handling, the known liveness risk of a long-running SSE copy.\n- Security: is the API key ever logged, echoed, put in a URL, or written to disk? Does the handshake response or private key persist in memory or logs? Any SSRF or header-injection path? Does a caller-supplied header get forwarded upstream?\n- Whether claim 2 is actually established, or merely \"not observed\". What would falsify it? Is a 401-only rejection story consistent with a fail-open design, and does that change what \"-sign\" is for?\n- Whether claims 3 and 5 are proven or asserted. Note that a brute-force over hand-picked layouts is weak evidence.\n- Anything that would embarrass the author if the repo went public.\n\nReturn exactly: VERDICT of SUPPORTED / REVISE / NEEDS_EVIDENCE, then the substantive objections ordered by severity, then the smallest check that would settle the most important disagreement. Be specific with file:line. Distinguish real defects from taste. No praise quota.",
+    "pending": null,
+    "review_sequence": 0,
+    "started_at": "2026-10-17T21:12:52.819223+03:00",
+    "wall_due_at": "2026-10-17T22:12:52.819223+03:00"
+  },
+  "clock_source": "first native hook observation; wall time only",
+  "due_at": "2026-10-17T23:12:52.809276+03:00",
+  "last_checkpoint": null,
+  "last_observed_at": "2026-10-17T21:49:05.961318+03:00",
+  "schema_version": 1,
+  "started_at": "2026-10-17T21:12:52.809276+03:00"
+}

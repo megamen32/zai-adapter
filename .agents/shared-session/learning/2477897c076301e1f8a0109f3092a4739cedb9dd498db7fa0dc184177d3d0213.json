@@ -1,0 +1,53 @@
+{
+  "business": {
+    "interval": {
+      "active_ns": 1446075938639,
+      "actor": "ses_eb4e15180ffeSp65qZMrsfvawf",
+      "boot_evidence": [
+        {
+          "id": "75670747-3fba-4f44-bce9-f1e61a6901ba",
+          "limitations": [],
+          "source": "/proc/sys/kernel/random/boot_id"
+        }
+      ],
+      "last_sample": {
+        "boot": {
+          "id": "75670747-3fba-4f44-bce9-f1e61a6901ba",
+          "limitations": [],
+          "source": "/proc/sys/kernel/random/boot_id"
+        },
+        "monotonic_ns": 415463069159608,
+        "wall_ns": 1792263111754036844
+      },
+      "open_monotonic_ns": 415463069159608,
+      "started": {
+        "boot": {
+          "id": "75670747-3fba-4f44-bce9-f1e61a6901ba",
+          "limitations": [],
+          "source": "/proc/sys/kernel/random/boot_id"
+        },
+        "monotonic_ns": 414016993220969,
+        "wall_ns": 1792261665678099095
+      },
+      "status": "running",
+      "stopped": null,
+      "task": "original-user-goal",
+      "version": 1,
+      "wall_clock_went_backward": false
+    },
+    "last_review": null,
+    "latest_prompt": "\"You are an INDEPENDENT Critic with fresh eyes. You did not write this code and you have no knowledge of how it was developed. Do not defer to any framing in the repository and do not treat any claim as given. Your job is to find what is wrong, weak, unjustified, or embarrassing, and to say so plainly. No praise quota.\n\nREPO UNDER REVIEW: /home/roomhacker/agents-projects/zai-adapter (Go). It exposes a z.ai \\\"Coding Plan\\\" endpoint behind a local URL so any project can use it by setting its base URL, and it reimplements ZCode's client attestation.\n\nRead: README.md, zsign/sign.go, internal/translate/translate.go, internal/translate/stream.go, cmd/zai-adapter/main.go, cmd/zaicheck/main.go, cmd/zailive/main.go, cmd/zaidiff/main.go. Also /home/roomhacker/agents-projects/zai-capture-probe/FINDINGS.md for background. Verify claims against the source; do not trust the prose.\n\nCLAIMS TO ATTACK\n1. One port serves both /v1/messages (Anthropic passthrough) and /v1/chat/completions (OpenAI translated to Anthropic upstream and back).\n2. The server does NOT enforce or confirm the attestation: signed and unsigned requests get identical 200 and identical usage with no distinguishing response header. Evidence offered is cmd/zaidiff.\n3. ZCode's captured signature does not verify under the API key in ~/.zcode/v2/config.json under any message layout, so ZCode signs with a different, encrypted credential.\n4. api.z.ai/api/paas/v4/chat/completions returns 429 \\\"Insufficient balance\\\" for this account.\n5. The proof-of-work formula, seed derivation and signed-message layout match the ZCode 0.16.9 client bundle.\n\nHUNT SPECIFICALLY FOR\n- Correctness bugs in translation: tool-call round trips, streaming, usage accounting, finish_reason mapping, multi-turn tool results, images, system/developer roles, empty/null content, tool_choice variants, stop sequences.\n- Robustness: unbounded reads, missing timeouts, goroutine and header leaks, panics, nil derefs, SSE copy liveness, half-written responses when upstream fails mid-stream.\n- Security: is the API key ever logged, echoed, placed in a URL, or written to disk? Does the handshake response or the private key linger in memory or logs? Any SSRF or header-injection path? Is any caller-supplied header forwarded upstream verbatim?\n- Whether claim 2 is actually PROVEN or merely \\\"not observed\\\", what would falsify it, and whether \\\"fails open\\\" changes what the -sign flag is actually for.\n- Whether claims 3 and 5 are proven or asserted. Note that brute-forcing a handful of hand-picked layouts is weak evidence for claim 3.\n- Anything that would embarrass the author once the repo is public.\n\nOUTPUT: write your complete review to /tmp/opencode/critic-verdict.md using exactly this structure:\n\n# VERDICT: <SUPPORTED|REVISE|NEEDS_EVIDENCE>\n\n## Blockers (ordered by severity)\n## Non-blocking\n## Proven vs merely not-observed\n## Smallest check that would settle the biggest disagreement\n\nCite file:line. Then print the verdict line and the path. Be concise and specific; no filler.\"",
+    "next_active_seconds": 3600,
+    "original_prompt": "\"You are an INDEPENDENT Critic with fresh eyes. You did not write this code and you have no knowledge of how it was developed. Do not defer to any framing in the repository and do not treat any claim as given. Your job is to find what is wrong, weak, unjustified, or embarrassing, and to say so plainly. No praise quota.\n\nREPO UNDER REVIEW: /home/roomhacker/agents-projects/zai-adapter (Go). It exposes a z.ai \\\"Coding Plan\\\" endpoint behind a local URL so any project can use it by setting its base URL, and it reimplements ZCode's client attestation.\n\nRead: README.md, zsign/sign.go, internal/translate/translate.go, internal/translate/stream.go, cmd/zai-adapter/main.go, cmd/zaicheck/main.go, cmd/zailive/main.go, cmd/zaidiff/main.go. Also /home/roomhacker/agents-projects/zai-capture-probe/FINDINGS.md for background. Verify claims against the source; do not trust the prose.\n\nCLAIMS TO ATTACK\n1. One port serves both /v1/messages (Anthropic passthrough) and /v1/chat/completions (OpenAI translated to Anthropic upstream and back).\n2. The server does NOT enforce or confirm the attestation: signed and unsigned requests get identical 200 and identical usage with no distinguishing response header. Evidence offered is cmd/zaidiff.\n3. ZCode's captured signature does not verify under the API key in ~/.zcode/v2/config.json under any message layout, so ZCode signs with a different, encrypted credential.\n4. api.z.ai/api/paas/v4/chat/completions returns 429 \\\"Insufficient balance\\\" for this account.\n5. The proof-of-work formula, seed derivation and signed-message layout match the ZCode 0.16.9 client bundle.\n\nHUNT SPECIFICALLY FOR\n- Correctness bugs in translation: tool-call round trips, streaming, usage accounting, finish_reason mapping, multi-turn tool results, images, system/developer roles, empty/null content, tool_choice variants, stop sequences.\n- Robustness: unbounded reads, missing timeouts, goroutine and header leaks, panics, nil derefs, SSE copy liveness, half-written responses when upstream fails mid-stream.\n- Security: is the API key ever logged, echoed, placed in a URL, or written to disk? Does the handshake response or the private key linger in memory or logs? Any SSRF or header-injection path? Is any caller-supplied header forwarded upstream verbatim?\n- Whether claim 2 is actually PROVEN or merely \\\"not observed\\\", what would falsify it, and whether \\\"fails open\\\" changes what the -sign flag is actually for.\n- Whether claims 3 and 5 are proven or asserted. Note that brute-forcing a handful of hand-picked layouts is weak evidence for claim 3.\n- Anything that would embarrass the author once the repo is public.\n\nOUTPUT: write your complete review to /tmp/opencode/critic-verdict.md using exactly this structure:\n\n# VERDICT: <SUPPORTED|REVISE|NEEDS_EVIDENCE>\n\n## Blockers (ordered by severity)\n## Non-blocking\n## Proven vs merely not-observed\n## Smallest check that would settle the biggest disagreement\n\nCite file:line. Then print the verdict line and the path. Be concise and specific; no filler.\"",
+    "pending": null,
+    "review_sequence": 0,
+    "started_at": "2026-10-17T21:27:45.666508+03:00",
+    "wall_due_at": "2026-10-17T22:27:45.666508+03:00"
+  },
+  "clock_source": "first native hook observation; wall time only",
+  "due_at": "2026-10-17T23:27:45.659593+03:00",
+  "last_checkpoint": null,
+  "last_observed_at": "2026-10-17T21:51:51.741352+03:00",
+  "schema_version": 1,
+  "started_at": "2026-10-17T21:27:45.659593+03:00"
+}

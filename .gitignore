@@ -1,6 +1,5 @@
-/zai-adapter
+/zai-attest
 /zaicheck
 /zailive
 /zaidiff
 *.test
-.agents/
